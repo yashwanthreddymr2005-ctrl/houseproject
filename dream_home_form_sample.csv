@@ -1,0 +1,31 @@
+sqft,bedrooms,bathrooms,age,city,state,zipcode,property_type,features,design_style
+804,6,2.0,31,Hyderabad,Telangana,500001,condo,pool,craftsman
+4056,1,1.0,11,Bangalore,Karnataka,560001,condo,garage,craftsman
+4036,2,2.5,75,Pune,Maharashtra,411001,townhouse,,traditional
+3387,3,1.5,27,Houston,Texas,77001,townhouse,,modern
+1392,3,4.0,44,Chicago,Illinois,60601,apartment,garage|master_suite,mediterranean
+1622,4,1.0,70,Miami,Florida,33101,townhouse,master_suite|updated_kitchen|pool|garage|basement,contemporary
+1253,2,4.0,12,Lucknow,Uttar Pradesh,226001,duplex,deck_patio|master_suite,industrial
+3632,3,1.5,34,Kolkata,West Bengal,700001,mobile_home,pool|updated_kitchen|master_suite|deck_patio|basement,traditional
+3708,3,3.5,71,Phoenix,Arizona,85001,condo,master_suite|basement|garage|pool|deck_patio,industrial
+2793,1,1.5,72,Chicago,Illinois,60601,mobile_home,hardwood|master_suite,mediterranean
+4358,2,2.0,17,Chicago,Illinois,60601,condo,updated_kitchen|master_suite|deck_patio|hardwood|basement,industrial
+1733,5,2.5,11,Ahmedabad,Gujarat,380001,single_family,,traditional
+4058,5,1.0,49,Kolkata,West Bengal,700001,duplex,deck_patio|updated_kitchen|fireplace|basement,
+4998,3,4.0,43,Hyderabad,Telangana,500001,single_family,basement|pool,mediterranean
+2757,5,4.0,22,Mumbai,Maharashtra,400001,apartment,,rustic
+2229,2,2.0,20,San Francisco,California,94102,apartment,garage|updated_kitchen|fireplace|hardwood,
+3573,3,1.5,7,Hyderabad,Telangana,500001,condo,pool|garage|master_suite|hardwood,modern
+1630,2,3.5,60,Miami,Florida,33101,apartment,updated_kitchen,craftsman
+4066,2,3.0,25,Boston,Massachusetts,02108,mobile_home,basement|master_suite,industrial
+4839,4,1.0,31,Phoenix,Arizona,85001,condo,,industrial
+2485,5,1.5,0,Mumbai,Maharashtra,400001,single_family,garage|pool|deck_patio|master_suite|fireplace,modern
+2549,3,3.5,62,San Francisco,California,94102,condo,fireplace|master_suite|updated_kitchen|basement,mediterranean
+4474,4,1.5,12,Ahmedabad,Gujarat,380001,single_family,basement|fireplace|hardwood|master_suite|updated_kitchen,
+1096,4,3.5,43,Hyderabad,Telangana,500001,single_family,hardwood,contemporary
+4275,2,2.5,23,Miami,Florida,33101,townhouse,hardwood|basement|garage,mediterranean
+1402,1,3.5,69,Miami,Florida,33101,single_family,,contemporary
+3929,4,2.5,27,Kolkata,West Bengal,700001,duplex,,traditional
+617,4,2.0,58,Chicago,Illinois,60601,townhouse,deck_patio|pool|basement,rustic
+1079,5,3.5,69,Pune,Maharashtra,411001,single_family,master_suite|garage|basement|updated_kitchen|hardwood,craftsman
+1889,1,3.0,10,San Francisco,California,94102,condo,,modern

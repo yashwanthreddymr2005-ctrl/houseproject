@@ -1,0 +1,387 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Predict House Price | Housing Price Predictor</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 2rem;
+        }
+
+        .back-btn {
+            display: inline-block;
+            color: white;
+            text-decoration: none;
+            font-size: 1rem;
+            margin-bottom: 1rem;
+            opacity: 0.9;
+            transition: opacity 0.3s ease;
+        }
+
+        .back-btn:hover {
+            opacity: 1;
+        }
+
+        .header h1 {
+            color: white;
+            font-size: 2.5rem;
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+        }
+
+        .header p {
+            color: rgba(255, 255, 255, 0.9);
+            font-size: 1.1rem;
+        }
+
+        .form-container {
+            max-width: 600px;
+            margin: 0 auto;
+            background: white;
+            padding: 2.5rem;
+            border-radius: 20px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.2);
+        }
+
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: 600;
+            color: #2c3e50;
+            font-size: 1rem;
+        }
+
+        .form-group input,
+        .form-group select {
+            width: 100%;
+            padding: 0.875rem 1rem;
+            border: 2px solid #e2e8f0;
+            border-radius: 12px;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+            background: #f8fafc;
+        }
+
+        .form-group input:focus,
+        .form-group select:focus {
+            outline: none;
+            border-color: #667eea;
+            background: white;
+            box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+        }
+
+        .form-group input:hover,
+        .form-group select:hover {
+            border-color: #cbd5e0;
+            background: white;
+        }
+
+        .input-hint {
+            font-size: 0.875rem;
+            color: #64748b;
+            margin-top: 0.25rem;
+        }
+
+        .form-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1rem;
+        }
+
+        .submit-btn {
+            width: 100%;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 1rem 2rem;
+            border: none;
+            border-radius: 12px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 8px 25px rgba(102, 126, 234, 0.3);
+            margin-top: 1rem;
+        }
+
+        .submit-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 12px 35px rgba(102, 126, 234, 0.4);
+        }
+
+        .submit-btn:active {
+            transform: translateY(0);
+        }
+
+        .result-section {
+            margin-top: 2rem;
+            padding: 1.5rem;
+            background: linear-gradient(135deg, #f0f9ff 0%, #e0f2fe 100%);
+            border-radius: 12px;
+            border: 2px solid #e0f2fe;
+            text-align: center;
+        }
+
+        .result-section.success {
+            background: linear-gradient(135deg, #f0fdf4 0%, #dcfce7 100%);
+            border-color: #bbf7d0;
+            color: #166534;
+        }
+
+        .result-section.error {
+            background: linear-gradient(135deg, #fef2f2 0%, #fecaca 100%);
+            border-color: #fca5a5;
+            color: #dc2626;
+        }
+
+        .prediction-result {
+            font-size: 1.5rem;
+            font-weight: 700;
+            margin: 0;
+        }
+
+        .prediction-price {
+            font-size: 2rem;
+            color: #059669;
+            margin: 0.5rem 0;
+        }
+
+        .form-info {
+            background: #f8fafc;
+            padding: 1.5rem;
+            border-radius: 12px;
+            margin-bottom: 2rem;
+            border-left: 4px solid #667eea;
+        }
+
+        .form-info h3 {
+            color: #2c3e50;
+            margin-bottom: 0.5rem;
+            font-size: 1.1rem;
+        }
+
+        .form-info p {
+            color: #64748b;
+            font-size: 0.95rem;
+            line-height: 1.5;
+        }
+
+        .loading {
+            display: none;
+            text-align: center;
+            color: #667eea;
+            font-weight: 600;
+            margin-top: 1rem;
+        }
+
+        .loading.show {
+            display: block;
+        }
+
+        @media (max-width: 600px) {
+            .form-container {
+                padding: 1.5rem;
+                margin: 10px;
+            }
+
+            .header h1 {
+                font-size: 2rem;
+            }
+
+            .form-row {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .spinner {
+            display: inline-block;
+            width: 20px;
+            height: 20px;
+            border: 2px solid #f3f4f6;
+            border-top: 2px solid #667eea;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+            margin-right: 10px;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        .fade-in {
+            animation: fadeIn 0.5s ease-in;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <a href="/" class="back-btn">← Back to Home</a>
+        <h1>🏠 Predict House Price</h1>
+        <p>Enter your property details to get an instant AI-powered price prediction</p>
+    </div>
+
+    <div class="form-container fade-in">
+        <div class="form-info">
+            <h3>💡 How it works</h3>
+            <p>Our AI model analyzes your property features using advanced machine learning to provide accurate price predictions based on market data.</p>
+        </div>
+
+        <form method="POST" action="/predict" id="prediction-form">
+            <div class="form-group">
+                <label for="sqft">🏠 Square Footage</label>
+                <input type="number" id="sqft" name="sqft" min="100" max="10000" step="1" required 
+                       placeholder="e.g., 2000">
+                <div class="input-hint">Enter the total living area in square feet</div>
+            </div>
+
+            <div class="form-row">
+                <div class="form-group">
+                    <label for="rooms">🛏️ Bedrooms</label>
+                    <select id="rooms" name="rooms" required>
+                        <option value="">Select bedrooms</option>
+                        <option value="1">1 Bedroom</option>
+                        <option value="2">2 Bedrooms</option>
+                        <option value="3">3 Bedrooms</option>
+                        <option value="4">4 Bedrooms</option>
+                        <option value="5">5+ Bedrooms</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label for="bathrooms">🛁 Bathrooms</label>
+                    <select id="bathrooms" name="bathrooms" required>
+                        <option value="">Select bathrooms</option>
+                        <option value="1">1 Bathroom</option>
+                        <option value="2">2 Bathrooms</option>
+                        <option value="3">3+ Bathrooms</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label for="age">📅 Property Age</label>
+                <input type="number" id="age" name="age" min="0" max="100" step="1" required 
+                       placeholder="e.g., 5">
+                <div class="input-hint">Age of the property in years (0 for new construction)</div>
+            </div>
+
+            <div class="form-group">
+                <label for="location">📍 Location</label>
+                <select id="location" name="location" required>
+                    <option value="">Select location type</option>
+                    <option value="Downtown">🏙️ Downtown</option>
+                    <option value="Suburb">🏘️ Suburb</option>
+                    <option value="Countryside">🌾 Countryside</option>
+                </select>
+                <div class="input-hint">Choose the location type that best describes your area</div>
+            </div>
+
+            <button type="submit" class="submit-btn" id="submit-btn">
+                🚀 Predict Price
+            </button>
+
+            <div class="loading" id="loading">
+                <span class="spinner"></span>
+                Analyzing property features...
+            </div>
+        </form>
+
+        {% if prediction_text %}
+        <div class="result-section {% if 'Error' in prediction_text %}error{% else %}success{% endif %} fade-in">
+            {% if 'Error' in prediction_text %}
+                <p class="prediction-result">{{ prediction_text }}</p>
+            {% else %}
+                <p class="prediction-result">Estimated Property Value:</p>
+                <p class="prediction-price">{{ prediction_text.split('₹')[1] if '₹' in prediction_text else prediction_text }}</p>
+                <p style="font-size: 0.9rem; color: #059669; margin-top: 0.5rem;">
+                    ✅ Prediction generated using AI machine learning
+                </p>
+            {% endif %}
+        </div>
+        {% endif %}
+    </div>
+
+    <script>
+        // Form submission with loading state
+        document.getElementById('prediction-form').addEventListener('submit', function(e) {
+            const submitBtn = document.getElementById('submit-btn');
+            const loading = document.getElementById('loading');
+            
+            submitBtn.style.display = 'none';
+            loading.classList.add('show');
+        });
+
+        // Auto-format square footage input
+        document.getElementById('sqft').addEventListener('input', function(e) {
+            let value = e.target.value.replace(/,/g, '');
+            if (value && !isNaN(value)) {
+                e.target.value = parseInt(value).toLocaleString();
+            }
+        });
+
+        // Form validation feedback
+        const inputs = document.querySelectorAll('input, select');
+        inputs.forEach(input => {
+            input.addEventListener('blur', function() {
+                if (this.checkValidity()) {
+                    this.style.borderColor = '#10b981';
+                } else {
+                    this.style.borderColor = '#ef4444';
+                }
+            });
+
+            input.addEventListener('input', function() {
+                this.style.borderColor = '#e2e8f0';
+            });
+        });
+
+        // Auto-calculate approximate range based on inputs
+        function updateEstimate() {
+            const sqft = parseInt(document.getElementById('sqft').value?.replace(/,/g, '')) || 0;
+            const rooms = parseInt(document.getElementById('rooms').value) || 0;
+            const location = document.getElementById('location').value;
+
+            if (sqft > 0 && rooms > 0 && location) {
+                // Simple estimation logic for preview
+                let basePrice = sqft * 250;
+                if (location === 'Downtown') basePrice += 150000;
+                else if (location === 'Suburb') basePrice += 80000;
+                else basePrice += 30000;
+
+                const hint = document.querySelector('.form-info p');
+                hint.innerHTML = `💡 Based on your inputs, estimated range: ₹${(basePrice * 0.8).toLocaleString()} - ₹${(basePrice * 1.2).toLocaleString()}. Click predict for accurate AI analysis.`;
+            }
+        }
+
+        // Add event listeners for real-time estimation
+        ['sqft', 'rooms', 'location'].forEach(id => {
+            document.getElementById(id).addEventListener('change', updateEstimate);
+        });
+    </script>
+</body>
+</html>
